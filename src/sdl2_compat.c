@@ -7182,6 +7182,9 @@ static void PostInitSubsystem(SDL_InitFlags new_flags)
     if (new_flags & SDL_INIT_HAPTIC) {
         SDL_NumHaptics();
     }
+    if (new_flags & SDL_INIT_GAMEPAD) {
+        SDL_GameControllerAddMappingsFromRW(SDL_RWFromFile("gamecontrollerdb.txt", "rb"), 1);
+    }
 }
 
 static int InitSubsystemInternal(SDL_InitFlags flags)
@@ -10774,6 +10777,7 @@ static SDL2_JoystickID JoystickID3to2(SDL_JoystickID id)
 
 static SDL_JoystickID GetJoystickInstanceFromIndex(int idx)
 {
+    SDL_NumJoysticks();
     if ((idx < 0) || (idx >= num_joysticks)) {
         SDL3_SetError("There are %d joysticks available", num_joysticks);
         return 0;
